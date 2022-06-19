@@ -8,7 +8,7 @@ export function statement(invoice, plays) {
 	minimumFractionDigits: 2 }).format;
 
 	for (let perf of invoice.performances) {
-		const play = plays[perf.playID];
+		const play = playFor(perf);
 		let thisAmount = amountFor(perf, play) // 추출한 함수를 이용
 
 		// 포인트를 적립한다.
@@ -23,6 +23,10 @@ export function statement(invoice, plays) {
 	result += `총액: ${format(totalAmount/100)}\n`;
 	result += `적립 포인트: ${volumeCredits}점\n`;
 	return result;
+
+	function playFor(perf) {
+		return plays[perf.playID];
+	}
 }
 
 // function amountFor(perf, play) { // 값이 바뀌지 않는 변수는 매개변수로 전달
