@@ -2,6 +2,7 @@ export function statement(invoice, plays) {
 	let totalAmount = 0;
 	let volumeCredits = 0;
 	let result = `청구 내역 (고객명: ${invoice.customer})\n`;
+
 	const format = new Intl.NumberFormat("en-US", 
 	{ style: "currency", currency: "USD",
 	minimumFractionDigits: 2 }).format;
@@ -34,7 +35,7 @@ export function statement(invoice, plays) {
 		if("comedy" === play.type) volumeCredits += Math.floor(perf.audience / 5);
 
 		// 청구 내역을 출력한다.
-		result += ` ${play.name}: ${format(thisAmount/100)} (${perf.audience}석\n)`;
+		result += ` ${play.name}: ${format(thisAmount/100)} (${perf.audience}석)\n`;
 		totalAmount += thisAmount;
 	}
 	result += `총액: ${format(totalAmount/100)}\n`;
