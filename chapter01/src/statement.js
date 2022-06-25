@@ -30,7 +30,7 @@ export function statement(invoice, plays) {
 
 function amountFor(aPerformance, play) { // 값이 바뀌지 않는 변수는 매개변수로 전달
 	let result = 0;
-	switch(play.type) {
+	switch(playFor(aPerformance).type) {
 		case "tragedy":
 			result = 40000;
 			if(aPerformance.audience > 30) {
@@ -45,7 +45,7 @@ function amountFor(aPerformance, play) { // 값이 바뀌지 않는 변수는 �
 			result += 300 * aPerformance.audience;
 			break;
 		default:
-			throw new Error(`알 수 없는 장르: ${play.type}`);
+			throw new Error(`알 수 없는 장르: ${playFor(aPerformance).type}`);
 	}
 	return result;
 }
