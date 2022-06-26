@@ -8,7 +8,16 @@ export function statement(invoice, plays) {
 		const result = Object.assign({}, aPerformance);
 		result.play = playFor(result);
 		result.amount = amountFor(result);
+		result.volumeCredits = volumeCreditsFor(result);
 		return result
+	}
+
+	function volumeCreditsFor(perf) {
+		let result = 0;
+		result += Math.max(perf.audience - 30, 0);
+		// 희극 관객 5명마다 추가 포인트를 제공한다.
+		if("comedy" === perf.play.type) result += Math.floor(perf.audience / 5);
+		return result;
 	}
 
 	function amountFor(aPerformance) {
@@ -46,14 +55,6 @@ export function statement(invoice, plays) {
 		result += `적립 포인트: ${totalVolumeCredits()}점\n`;
 		return result;
 
-		function volumeCreditsFor(perf) {
-			let result = 0;
-			result += Math.max(perf.audience - 30, 0);
-			// 희극 관객 5명마다 추가 포인트를 제공한다.
-			if("comedy" === perf.play.type) result += Math.floor(perf.audience / 5);
-			return result;
-		}
-
 		function usd(aNumber) {
 			return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2 }).format(aNumber/100);
 		
@@ -62,7 +63,7 @@ export function statement(invoice, plays) {
 		function totalVolumeCredits() {
 			let result = 0;
 			for (let perf of data.performances) {
-				result += volumeCreditsFor(perf);
+				result += perf.volumeCredits;
 			}
 			return result;
 		
