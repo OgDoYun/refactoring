@@ -25,11 +25,11 @@ export function statement(invoice, plays) {
 		return  plays[aPerformance.playID]
 	}
 	function volumeCreditsFor(perf) {
-		let volumeCredits = 0;
-		volumeCredits += Math.max(perf.audience - 30, 0);
+		let result = 0;
+		result += Math.max(perf.audience - 30, 0);
 		// 희극 관객 5명마다 추가 포인트를 제공한다.
-		if("comedy" === playFor(perf).type) volumeCredits += Math.floor(perf.audience / 5);
-		return volumeCredits;
+		if("comedy" === playFor(perf).type) result += Math.floor(perf.audience / 5);
+		return result;
 	}
 
 	let totalAmount = 0;
