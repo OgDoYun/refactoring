@@ -31,8 +31,8 @@ export function statement(invoice, plays) {
 		if("comedy" === playFor(perf).type) result += Math.floor(perf.audience / 5);
 		return result;
 	}
-	function format(aNumber) {
-		return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2 }).format(aNumber);
+	function usd(aNumber) {
+		return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2 }).format(aNumber/100);
 
 	}
 
@@ -44,10 +44,10 @@ export function statement(invoice, plays) {
 		volumeCredits += volumeCreditsFor(perf);
 
 		// 청구 내역을 출력한다.
-		result += ` ${playFor(perf).name}: ${format(amountFor(perf)/100)} (${perf.audience}석)\n`;
+		result += ` ${playFor(perf).name}: ${usd(amountFor(perf))} (${perf.audience}석)\n`;
 		totalAmount += amountFor(perf);
 	}
-	result += `총액: ${format(totalAmount/100)}\n`; // 임시 변수였던 format을 함수 호출로 대체
+	result += `총액: ${usd(totalAmount)}\n`; // 임시 변수였던 format을 함수 호출로 대체
 	result += `적립 포인트: ${volumeCredits}점\n`;
 	return result;
 }
