@@ -1,5 +1,5 @@
 export function statement(invoice, plays) {
-	function amountFor(aPerformance) { // 필요 없어진 매개변수 제거
+	function amountFor(aPerformance) {
 		let result = 0;
 		switch(playFor(aPerformance).type) {
 			case "tragedy":
@@ -35,9 +35,16 @@ export function statement(invoice, plays) {
 		return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2 }).format(aNumber/100);
 
 	}
+	function totalVolumeCredits() {
+		let volumeCredits = 0;
+		for (let perf of invoice.performances) {
+			volumeCredits += volumeCreditsFor(perf);
+		}
+		return volumeCredits;
+
+	}
 
 	let totalAmount = 0;
-	let volumeCredits = 0;
 	let result = `청구 내역 (고객명: ${invoice.customer})\n`;
 
 	for (let perf of invoice.performances) {
@@ -45,10 +52,8 @@ export function statement(invoice, plays) {
 		result += ` ${playFor(perf).name}: ${usd(amountFor(perf))} (${perf.audience}석)\n`;
 		totalAmount += amountFor(perf);
 	}
-	for (let perf of invoice.performances) {
-		volumeCredits += volumeCreditsFor(perf); // 값 누적 로직을 별도 for문으로 분리
-	}
-	result += `총액: ${usd(totalAmount)}\n`; // 임시 변수였던 format을 함수 호출로 대체
+	let volumeCredits = totalVolumeCredits(); // 값 계산 로직을 함수로 추출
+	result += `총액: ${usd(totalAmount)}\n`;
 	result += `적립 포인트: ${volumeCredits}점\n`;
 	return result;
 }
