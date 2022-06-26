@@ -31,23 +31,23 @@ export function statement(invoice, plays) {
 		if("comedy" === playFor(perf).type) result += Math.floor(perf.audience / 5);
 		return result;
 	}
+	function format(aNumber) {
+		return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2 }).format(aNumber);
+
+	}
 
 	let totalAmount = 0;
 	let volumeCredits = 0;
 	let result = `청구 내역 (고객명: ${invoice.customer})\n`;
 
-	const format = new Intl.NumberFormat("en-US", 
-	{ style: "currency", currency: "USD",
-	minimumFractionDigits: 2 }).format;
-
 	for (let perf of invoice.performances) {
-		volumeCredits += volumeCreditsFor(perf); // 추출한 함수를 이용해 값을 누적
+		volumeCredits += volumeCreditsFor(perf);
 
 		// 청구 내역을 출력한다.
 		result += ` ${playFor(perf).name}: ${format(amountFor(perf)/100)} (${perf.audience}석)\n`;
 		totalAmount += amountFor(perf);
 	}
-	result += `총액: ${format(totalAmount/100)}\n`;
+	result += `총액: ${format(totalAmount/100)}\n`; // 임시 변수였던 format을 함수 호출로 대체
 	result += `적립 포인트: ${volumeCredits}점\n`;
 	return result;
 }
