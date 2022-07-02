@@ -12,6 +12,14 @@ export default function createStatementData(invoice, plays) {
 		result.play = playFor(result);
 		result.amount = amountFor(result);
 		result.volumeCredits = volumeCreditsFor(result);
+		// result example
+		// {
+		// "playID": "hamlet",
+		// "audience": 55,
+		// 	"play": {"name": "Hamlet", "type": "tragedy"},
+		// 	"amount": 650,
+		// 	"volumeCredits": 23,
+		// }
 		return result
 	}
 
